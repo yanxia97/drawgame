@@ -49,14 +49,14 @@ var myGameArea = {
             this.status=0;
         })
         window.addEventListener('touchstart', function (e) {
-    		myGameArea.x=e.screenX;
-    		myGameArea.y=e.screenY;
+    		myGameArea.x=e.targetTouches[0].screenX;
+    		myGameArea.y=e.targetTouches[0].screenY;
     		this.status=1;
         })
         window.addEventListener('touchmove', function (e) {
     		if (this.status==1){
-            	myGameArea.x=e.screenX;
-    			myGameArea.y=e.screenY;
+            	myGameArea.x=e.targetTouches[0].screenX;
+    			myGameArea.y=e.targetTouches[0].screenY;
             }
         })
         window.addEventListener('touchend', function (e) {
