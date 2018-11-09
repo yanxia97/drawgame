@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+body {
+    margin: 0;
+}
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+var radius;
+var color;
+
+function startGame() {
+    radius = 5;   
+    color = 'red';            
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 800;
+        this.canvas.height = 450;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 1);
+        this.status = 0;
+        window.addEventListener('mousedown', function (e) {
+    		myGameArea.x=e.pageX;
+    		myGameArea.y=e.pageY;
+    		this.status=1;
+        })
+        window.addEventListener('mousemove', function (e) {
+    		if (this.status==1){
+            	myGameArea.x=e.pageX;
+    			myGameArea.y=e.pageY;
+            }
+        })
+        window.addEventListener('mouseup', function (e) {
+    		myGameArea.x=false;
+    		myGameArea.y=false;
+            this.status=0;
+        })
+        window.addEventListener('touchstart', function (e) {
+    		myGameArea.x=e.screenX;
+    		myGameArea.y=e.screenY;
+    		this.status=1;
+        })
+        window.addEventListener('touchmove', function (e) {
+    		if (this.status==1){
+            	myGameArea.x=e.screenX;
+    			myGameArea.y=e.screenY;
+            }
+        })
+        window.addEventListener('touchend', function (e) {
+    		myGameArea.x=false;
+    		myGameArea.y=false;
+            this.status=0;
+        })
+        window.addEventListener('keydown', function (e) {
+        	// alert(e.keyCode)
+            if (e.keyCode == 32) {
+            	myGameArea.clear()
+            }
+    		if (e.keyCode == 38) {
+            	radius += 1;
+            }
+            if (e.keyCode == 40) {
+            	if (radius > 1) {
+                	radius -= 1;
+                }
+            }
+            if (e.keyCode == 66) {
+            	color = 'blue';
+            }
+            if (e.keyCode == 71) {
+            	color = 'green';
+            }
+            if (e.keyCode == 82) {
+            	color = 'red';
+            }
+            if (e.keyCode == 89) {
+            	color = 'yellow';
+            }
+        })
+    }, 
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function updateGameArea() {
+    if (myGameArea.x && myGameArea.y) {
+    	ctx = myGameArea.context;
+        ctx.beginPath();
+        ctx.fillStyle = color;
+	    ctx.arc(myGameArea.x,myGameArea.y,radius,0,Math.PI*2,true);
+	    ctx.fill();
+    }
+}
+
+</script>
+
+<p>Move the cursor inside the 800 x 450 pixel canvas to move a colored pen You can alternate colors by hitting "b" for blue, "g" for green, "r" for red, and "y" for yellow.</p>
+<p>You can also increase and decrease the circle size by using the up(larger) and down(smaller) arrow keys. You can clear the screen using the space bar.</p>
+<p>Test your program!</p>
+</body>
+</html>
+
+
